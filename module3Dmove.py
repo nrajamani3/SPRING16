@@ -44,7 +44,7 @@ def move_dir4(self,i):
            self.uzz[i] += 1
         elif dir4 == 6:
            self.uzz[i] -= 1
-def move_dir5(self,i):
+    def move_dir5(self,i):
         dir5 = random.choice((7,8,9,10,11,12,13,14,15,16,17,18))
         if dir5 == 7:
            self.uxx[i] += 1
@@ -82,7 +82,7 @@ def move_dir5(self,i):
         elif dir5 == 18:
            self.uyy[i] -= 1
            self.uzz[i] += 1
-def move_dir6(self,i):
+    def move_dir6(self,i):
         dir6 = random.choice((19,20,21,22,23,24,25,26))
         if dir6 == 19:
            self.uxx[i] += 1

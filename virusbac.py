@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Fri Apr 15 17:25:56 2016
+
+@author: nanditharajamani
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Thu Apr  7 08:55:03 2016
 
 @author: nanditharajamani
@@ -155,25 +162,30 @@ class Particle:
            self.uyy[i] -= 1
            self.uzz[i] -= 1  
            
-    def conflicts(self,i,D,np):
+    def conflicts(self,i,D):
         if (D == 1):
-            if(self.uxx[i] == self.preX.any()):
-                self.uxx[i] = self.preX[i]
-                return 1
-            else:
-                return 0
-        elif (D == 2):   
-             if (self.uxx[i] == self.preX[i] and self.uyy[i] == self.preY[i]):
-                self.uxx[i] = self.preX[i]
-                self.uyy[i] = self.preY[i]
+         if (self.uxx[i]==self.preX.any()):
+             self.uxx[i]=self.preX[i]
+             return 1
+         else:
+             return 0
+        elif (D == 2):
+         if (self.uxx[i]==self.preX.any() and self.uyy[i]==self.preY.any()):
+            self.uxx[i]=self.preX[i]
+            self.uyy[i]=self.preY[i]
+            return 1
+         else:
+            return 0
         elif (D == 3):
-         if (self.uxx[i] == self.preX.any()):
-            if ( self.uyy[i] == self.preY.any()):
-              if(self.uzz[i] == self.preZ.any()):   
-                 self.uxx[i] = self.preX[i]
-                 self.uyy[i] = self.preY[i] 
-                 self.uzz[i] = self.preZ[i]
-            
+         if (self.uxx[i]==self.preX.any() and self.uyy[i]==self.preY.any()):
+             self.uxx[i]=self.preX[i]
+             self.uyy[i]=self.preY[i]
+             self.uzz[i]=self.preZ[i]
+             return 1
+         else:
+            return 0
+    
+    
     def move1d(self,np,ns,p0):
          RIGHT = 1; LEFT = 2;
          self.prob      = (1-p0)**2 
@@ -191,7 +203,7 @@ class Particle:
                  elif dir1 == LEFT:
                     self.uxx[i] -= 1
                if (self.type == 'b'):
-                   self.conflicts(i,1,np)
+                   self.conflicts(i,1)
         
                    
          #self.xcor.append(uxx)
@@ -208,14 +220,16 @@ class Particle:
                     self.preY = self.uyy
                     self.move_dir2(i)
                     if(self.type =='b'):                    
-                       self.conflicts(i,2,np)
+                       if(self.conflicts(i,2)):
+                           i=i-1
                    
                 elif(self.x <= self.prob4move+self.prob8move):
                     self.preX = self.uxx
                     self.preY = self.uyy
                     self.move_dir3(i)
                     if(self.type == 'b'):
-                       self.conflicts(i,2,np)
+                       if(self.conflicts(i,2)):
+                           i=i-1
                     
     def move3d(self,np,ns,p0):
         self.probnomove3D = (1-2*p0)**3
@@ -230,7 +244,7 @@ class Particle:
                    self.preZ = self.uzz
                    self.move_dir4(i)
                    if(self.type == 'b'):
-                      self.conflicts(i,3,np)
+                      self.conflicts(i,3)
                 
                 elif(self.x <= self.prob1axis3D+self.prob2axis3D):
                    self.preX = self.uxx
@@ -238,7 +252,7 @@ class Particle:
                    self.preZ = self.uzz
                    self.move_dir5(i)
                    if(self.type == 'b'):
-                      self.conflicts(i,3,np)
+                      self.conflicts(i,3)
 
                 elif(self.x <= self.prob1axis3D+self.prob2axis3D+self.prob3axis3D):
                    self.preX = self.uxx
@@ -246,7 +260,7 @@ class Particle:
                    self.preZ = self.uzz 
                    self.move_dir6(i)
                    if(self.type == 'b'):
-                      self.conflicts(i,3,np)
+                      self.conflicts(i,3)
 
            
     
@@ -266,11 +280,7 @@ v.move2d(10,10,0.2)
 b.move2d(10,10,0.2)
 tfinish = time.time()
 print ("the average time using numpy:", tfinish-tstart, "s")
-plt.hist(v.uxx)
-plt.show()
 plt.scatter(v.uxx,v.uyy)
-plt.show()
-plt.hist(b.uxx)
 plt.show()
 plt.scatter(b.uxx,b.uyy,c='r')
 plt.show()
