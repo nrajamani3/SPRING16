@@ -198,27 +198,60 @@ class Particle:
            
     def conflicts(self,i,D): #SANITY CHECK IMPLEMENTED CHECK TEST2.PY!
         if (D == 1):
-         if (self.uxx[i]==self.preX.any()):
-             self.uxx[i]=self.preX[i]
-             return 1
-         else:
-             return 0
+           c = numpy.intersect1d(self.uxx, self.preX)
+           d = numpy.intersect1d(self.uyy, self.preY)
+           if (c.size and d.size):
+              self.uxx[i] = self.uxx[i]-1
+          # self.uyy[i] = self.uyy[i]-1
+           else:
+              self.uxx[i] = self.preX
+            #self.uyy[i] = self.preY
+         #if (self.uxx[i]==self.preX.any()):
+         #    self.uxx[i]=self.preX[i]
+         #    return 1
+         #else:
+         #    return 0
         elif (D == 2):
-         if (self.uxx[i]==self.preX.any() and self.uyy[i]==self.preY.any()):
-            self.uxx[i]=self.preX[i]
-            self.uyy[i]=self.preY[i]
-            return 1
-         else:
-            return 0
+          c = numpy.intersect1d(self.uxx, self.preX)
+          d = numpy.intersect1d(self.uyy, self.preY)
+          if (c.size and d.size):
+              self.uxx[i] = self.uxx[i]-1
+              self.uyy[i] = self.uyy[i]-1
+          else:
+              self.uxx[i] = self.preX
+              self.uyy[i] = self.preY
+  
+         #if (self.uxx[i]==self.preX.any() and self.uyy[i]==self.preY.any()):
+         #   self.uxx[i]=self.preX[i]
+         #   self.uyy[i]=self.preY[i]
+         #   return 1
+         #else:
+         #   return 0
             
         elif (D == 3):
-         if (self.uxx[i]==self.preX.any() and self.uyy[i]==self.preY.any()):
-             self.uxx[i]=self.preX[i]
-             self.uyy[i]=self.preY[i]
-             self.uzz[i]=self.preZ[i]
-             return 1
-         else:
-            return 0
+          c = numpy.intersect1d(self.uxx, self.preX)
+          d = numpy.intersect1d(self.uyy, self.preY)
+          e = numpy.intersect1d(self.uzz,self.preZ)
+          if (c.size and d.size and e.size):
+              self.uxx[i] = self.uxx[i]-1
+              self.uyy[i] = self.uyy[i]-1
+              self.uzz[i] = self.uzz[i]-1
+          else:
+              self.uxx[i] = self.preX
+              self.uyy[i] = self.preY
+              self.uzz[i] = self.preZ
+         
+         
+         
+         
+         
+         #if (self.uxx[i]==self.preX.any() and self.uyy[i]==self.preY.any()):
+          #   self.uxx[i]=self.preX[i]
+          #   self.uyy[i]=self.preY[i]
+          #   self.uzz[i]=self.preZ[i]
+          #   return 1
+         #else:
+          #  return 0
     
     
     def move1d(self,np,ns,p0):
@@ -255,16 +288,16 @@ class Particle:
                     self.preY = self.uyy
                     self.move_dir2(i,np)
                     if(self.type =='b'):                    
-                       if(self.conflicts(i,2)):
-                           i=i-1
+                       self.conflicts(i,2)
+                           
                    
                 elif(self.x <= self.prob4move+self.prob8move):
                     self.preX = self.uxx
                     self.preY = self.uyy
                     self.move_dir3(i,np)
                     if(self.type == 'b'):
-                       if(self.conflicts(i,2)):
-                           i=i-1
+                      self.conflicts(i,2)
+                           
                     
     def move3d(self,np,ns,p0):
         self.probnomove3D = (1-2*p0)**3
@@ -296,21 +329,21 @@ class Particle:
                    self.move_dir6(i,np)
                    if(self.type == 'b'):
                       self.conflicts(i,3)
-                      i = i-1
+
            
     
 tstart = time.time()        
 v = Particle()
 b = Particle()
 v.settype('v')
-v.nomove(1000)
+v.nomove(10)
 b.settype('b')
-b.nomove(1000)
+b.nomove(10)
 plt.scatter(v.uxx,v.uyy)
 plt.scatter(b.uxx,b.uyy,c='r')
 plt.show()
-v.move2d(1000,1000,0.2)
-b.move2d(1000,1000,0.2)
+v.move3d(10,10,0.2)
+b.move3d(10,10,0.2)
 tfinish = time.time()
 print ("the average time using numpy:", tfinish-tstart, "s")
 plt.hist(v.uxx)
