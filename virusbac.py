@@ -15,7 +15,7 @@ import numpy
 import random
 import matplotlib.pyplot as plt
 import time
-#from matplotlib import animation
+#import matplotlib.animation as animation
 
 
 class Particle:
@@ -47,122 +47,156 @@ class Particle:
                 self.uyy[i] = np/2
                 self.uzz[i] = (np/2)
             elif (self.type == 'b'):
-                self.uxx[i] = i
-                self.uyy[i] = 0
-                self.uzz[i] = 0
+                self.uxx[i] = random.randint(0,np)   #implement it to start on the x-axis
+                self.uyy[i] = random.randint(0,np)
+                self.uzz[i] = random.randint(0,np)
             
-    def move_dir2(self,i):
+    def move_dir2(self,i,np):
         dir2 = random.choice((1,2,3,4))
         if (dir2 == 1):
-            self.uxx[i] += 1
+            if(self.uxx[i] < np): 
+               self.uxx[i] += 1
         elif (dir2 == 2):
-            self.uxx[i] -= 1
+            if(self.uxx[i] > 0):
+               self.uxx[i] -= 1
         elif (dir2 == 3):
-            self.uyy[i] += 1
+            if(self.uyy[i] < np):
+               self.uyy[i] += 1
         elif(dir2 == 4):
-            self.uyy[i] -= 1
-    def move_dir3(self,i):
+            if(self.uyy[i] > 0):  
+               self.uyy[i] -= 1
+    def move_dir3(self,i,np):
         dir3 = random.choice((5,6,7,8))
         if (dir3 == 5):
-            self.uxx[i] += 1
-            self.uyy[i] += 1
+            if(self.uxx[i] < np and self.uyy[i] < np ):
+               self.uxx[i] += 1
+               self.uyy[i] += 1
         elif(dir3 == 6):
-            self.uxx[i] -= 1
-            self.uyy[i] += 1
+            if(self.uxx[i] > 0 and self.uyy[i] < np ):           
+               self.uxx[i] -= 1
+               self.uyy[i] += 1
         elif(dir3 == 7):
-            self.uxx[i] += 1
-            self.uyy[i] -= 1
+            if(self.uxx[i] < np and self.uyy[i] > 0 ):
+              self.uxx[i] += 1
+              self.uyy[i] -= 1
         elif(dir3 == 8):
-            self.uxx[i] -= 1
-            self.uyy[i] -= 1
-    def move_dir4(self,i):
+            if(self.uxx[i] > 0 and self.uyy[i] > 0):
+              self.uxx[i] -= 1
+              self.uyy[i] -= 1
+    def move_dir4(self,i,np):
         dir4 = random.choice((1,2,3,4,5,6))
         if dir4 == 1:
-          self.uxx[i] += 1
+          if(self.uxx[i] < np):
+             self.uxx[i] += 1
         elif dir4 == 2:
-          self.uxx[i] -= 1
+          if(self.uxx[i] > 0):
+             self.uxx[i] -= 1
         elif dir4 == 3:
-          self.uyy[i] += 1
+           if(self.uyy[i] < np): 
+              self.uyy[i] += 1
         elif dir4 == 4:
-          self.uyy[i] -= 1
+           if(self.uyy[i] > 0 ):
+              self.uyy[i] -= 1
         elif dir4 == 5:
-           self.uzz[i] += 1
+            if(self.uzz[i] < np):
+               self.uzz[i] += 1
         elif dir4 == 6:
-           self.uzz[i] -= 1
-    def move_dir5(self,i):
+            if(self.uzz[i] > 0):
+               self.uzz[i] -= 1
+    def move_dir5(self,i,np):
         dir5 = random.choice((7,8,9,10,11,12,13,14,15,16,17,18))
         if dir5 == 7:
-           self.uxx[i] += 1
-           self.uyy[i] += 1
+           if(self.uxx[i] < np and self.uyy[i] < np ):
+              self.uxx[i] += 1
+              self.uyy[i] += 1
         elif dir5 == 8:
-           self.uxx[i] -= 1
-           self.uyy[i] += 1
+           if(self.uxx[i] > 0 and self.uyy[i] < np ): 
+              self.uxx[i] -= 1
+              self.uyy[i] += 1
         elif dir5 == 9:
-           self.uxx[i] -= 1
-           self.uyy[i] -= 1
+           if(self.uxx[i] > 0 and self.uyy[i] > 0): 
+              self.uxx[i] -= 1
+              self.uyy[i] -= 1
         elif dir5 == 10:
-           self.uxx[i] += 1
-           self.uyy[i] -= 1
+           if(self.uxx[i] < np and self.uyy[i] > 0): 
+              self.uxx[i] += 1
+              self.uyy[i] -= 1
         elif dir5 == 11:
-           self.uxx[i] += 1
-           self.uzz[i] += 1
+            if(self.uxx[i] < np and self.uzz[i] < np):
+              self.uxx[i] += 1
+              self.uzz[i] += 1
         elif dir5 == 12:
-           self.uxx[i] -= 1
-           self.uzz[i] -= 1
+            if(self.uxx[i] > 0 and self.uzz[i] > 0):
+              self.uxx[i] -= 1
+              self.uzz[i] -= 1
         elif dir5 == 13:
-           self.uxx[i] += 1
-           self.uzz[i] -= 1
+            if(self.uxx[i] < np and self.uzz[i] > 0):
+              self.uxx[i] += 1
+              self.uzz[i] -= 1
         elif dir5 == 14:
-           self.uxx[i] -= 1
-           self.uzz[i] += 1
+            if(self.uxx[i] > 0 and self.uzz[i] < np):
+              self.uxx[i] -= 1
+              self.uzz[i] += 1
         elif dir5 == 15:
-           self.uyy[i] += 1
-           self.uzz[i] += 1
+            if(self.uyy[i] < np and self.uzz[i] < np):
+               self.uyy[i] += 1
+               self.uzz[i] += 1
         elif dir5 == 16:
-           self.uyy[i] -= 1
-           self.uzz[i] -= 1
+            if(self.uyy[i] > 0 and self.uzz[i] > 0):
+               self.uyy[i] -= 1
+               self.uzz[i] -= 1
         elif dir5 == 17:
-           self.uyy[i] += 1
-           self.uzz[i] -= 1
+            if(self.uyy[i] < np and self.uzz[i] > 0):
+               self.uyy[i] += 1
+               self.uzz[i] -= 1
         elif dir5 == 18:
-           self.uyy[i] -= 1
-           self.uzz[i] += 1
-    def move_dir6(self,i):
-        dir6 = random.choice((19,20,21,22,23,24,25,26))
+            if(self.uyy[i] > 0 and self.uzz[i] < np):
+               self.uyy[i] -= 1
+               self.uzz[i] += 1
+    def move_dir6(self,i,np):
+        dir6 = random.choice((19,20,21,22,23,24,25,26))           
         if dir6 == 19:
-           self.uxx[i] += 1
-           self.uyy[i] += 1
-           self.uzz[i] += 1
+          if(self.uxx[i] < np and self.uyy[i] < np and self.uzz[i] < np):
+             self.uxx[i] += 1
+             self.uyy[i] += 1
+             self.uzz[i] += 1
         elif dir6 == 20:
-           self.uxx[i] -= 1
-           self.uyy[i] -= 1
-           self.uzz[i] -= 1
+           if(self.uxx[i] > 0 and self.uyy[i] > 0 and self.uzz[i] > 0): 
+             self.uxx[i] -= 1
+             self.uyy[i] -= 1
+             self.uzz[i] -= 1
         elif dir6 == 21:
-           self.uxx[i] += 1
-           self.uyy[i] += 1
-           self.uzz[i] -= 1
+           if(self.uxx[i] < np and self.uyy[i] < np and self.uzz[i] > 0): 
+              self.uxx[i] += 1
+              self.uyy[i] += 1
+              self.uzz[i] -= 1
         elif dir6 == 22:
-           self.uxx[i] -= 1
-           self.uyy[i] -= 1
-           self.uzz[i] += 1
+            if(self.uxx[i] > 0 and self.uyy[i] > 0 and self.uzz[i] < np):
+               self.uxx[i] -= 1
+               self.uyy[i] -= 1
+               self.uzz[i] += 1
         elif dir6 == 23:
-           self.uxx[i] += 1
-           self.uyy[i] -= 1
-           self.uzz[i] += 1
+            if(self.uxx[i] < np and self.uyy[i] > 0 and self.uzz[i] < np):
+               self.uxx[i] += 1
+               self.uyy[i] -= 1
+               self.uzz[i] += 1
         elif dir6 == 24:
-           self.uxx[i] -= 1
-           self.uyy[i] += 1
-           self.uzz[i] -= 1
+            if(self.uxx[i] > 0 and self.uyy[i] < np and self.uzz[i] > 0):
+               self.uxx[i] -= 1
+               self.uyy[i] += 1
+               self.uzz[i] -= 1
         elif dir6 == 25:
-           self.uxx[i] -= 1
-           self.uyy[i] += 1
-           self.uzz[i] += 1
+            if(self.uxx[i] > 0 and self.uyy[i] < np and self.uzz[i] < np):
+               self.uxx[i] -= 1
+               self.uyy[i] += 1
+               self.uzz[i] += 1
         elif dir6 == 26:
-           self.uxx[i] += 1
-           self.uyy[i] -= 1
-           self.uzz[i] -= 1  
+            if(self.uxx[i] < np and self.uyy[i] > 0 and self.uzz[i] > 0):
+               self.uxx[i] += 1
+               self.uyy[i] -= 1
+               self.uzz[i] -= 1  
            
-    def conflicts(self,i,D):
+    def conflicts(self,i,D): #SANITY CHECK IMPLEMENTED CHECK TEST2.PY!
         if (D == 1):
          if (self.uxx[i]==self.preX.any()):
              self.uxx[i]=self.preX[i]
@@ -176,6 +210,7 @@ class Particle:
             return 1
          else:
             return 0
+            
         elif (D == 3):
          if (self.uxx[i]==self.preX.any() and self.uyy[i]==self.preY.any()):
              self.uxx[i]=self.preX[i]
@@ -218,7 +253,7 @@ class Particle:
                 if (self.x <= self.prob4move):
                     self.preX = self.uxx
                     self.preY = self.uyy
-                    self.move_dir2(i)
+                    self.move_dir2(i,np)
                     if(self.type =='b'):                    
                        if(self.conflicts(i,2)):
                            i=i-1
@@ -226,7 +261,7 @@ class Particle:
                 elif(self.x <= self.prob4move+self.prob8move):
                     self.preX = self.uxx
                     self.preY = self.uyy
-                    self.move_dir3(i)
+                    self.move_dir3(i,np)
                     if(self.type == 'b'):
                        if(self.conflicts(i,2)):
                            i=i-1
@@ -242,51 +277,60 @@ class Particle:
                    self.preX = self.uxx
                    self.preY = self.uyy
                    self.preZ = self.uzz
-                   self.move_dir4(i)
+                   self.move_dir4(i,np)
                    if(self.type == 'b'):
                       self.conflicts(i,3)
-                
+                      i = i-1
                 elif(self.x <= self.prob1axis3D+self.prob2axis3D):
                    self.preX = self.uxx
                    self.preY = self.uyy
                    self.preZ = self.uzz
-                   self.move_dir5(i)
+                   self.move_dir5(i,np)
                    if(self.type == 'b'):
                       self.conflicts(i,3)
-
+                      i = i-1
                 elif(self.x <= self.prob1axis3D+self.prob2axis3D+self.prob3axis3D):
                    self.preX = self.uxx
                    self.preY = self.uyy
                    self.preZ = self.uzz 
-                   self.move_dir6(i)
+                   self.move_dir6(i,np)
                    if(self.type == 'b'):
                       self.conflicts(i,3)
-
+                      i = i-1
            
     
 tstart = time.time()        
 v = Particle()
 b = Particle()
-#b = Particle()
 v.settype('v')
-v.nomove(10)
-plt.scatter(v.uxx,v.uyy)
-plt.show()
+v.nomove(1000)
 b.settype('b')
-b.nomove(10)
+b.nomove(1000)
+plt.scatter(v.uxx,v.uyy)
 plt.scatter(b.uxx,b.uyy,c='r')
 plt.show()
-v.move2d(10,10,0.2)
-b.move2d(10,10,0.2)
+v.move2d(1000,1000,0.2)
+b.move2d(1000,1000,0.2)
 tfinish = time.time()
 print ("the average time using numpy:", tfinish-tstart, "s")
-plt.scatter(v.uxx,v.uyy)
+plt.hist(v.uxx)
 plt.show()
+plt.hist(b.uxx)
+plt.show()
+plt.scatter(v.uxx,v.uyy)
 plt.scatter(b.uxx,b.uyy,c='r')
 plt.show()
-plt.scatter(v.uxx,v.uyy)
-plt.scatter(b.uxx,b.uyy,c='r')
-plt.show()
+
+
+
+
+
+
+
+#def init():
+#    line.set_data([],[])
+#    return line,
+#plt.show()
 #plt.scatter(uyy,uzz)
 #plt.show()
 #plt.scatter(uxx,uzz)
